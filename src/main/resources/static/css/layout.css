@@ -1,0 +1,91 @@
+body {
+    background-color: #f8f9fa;
+}
+.navbar, .sidebar {
+    background-color: #343a40;
+    color: white;
+}
+.navbar a, .sidebar a {
+    color: white;
+}
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    padding-top: 20px;
+    transition: width 0.3s ease;
+}
+.sidebar.collapsed {
+    width: 80px;
+}
+.sidebar.collapsed .nav-link {
+    text-align: center;
+    padding: 0.75rem 0;
+}
+.sidebar.collapsed .nav-link span {
+    display: none;
+}
+.sidebar.collapsed .submenu {
+    display: none !important;
+}
+.sidebar a:hover {
+    background-color: #495057;
+}
+.main-body{
+    margin-left: 10px;
+    padding: 20px;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+}
+
+.content {
+    margin-left: 250px;
+    /**/
+    background-color: #e9ecef;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+}
+/*.main-content{*/
+/*    padding: 20px;*/
+/*}*/
+.content.collapsed {
+    margin-left: 80px;
+}
+.submenu {
+    display: none;
+}
+.submenu.show {
+    display: block;
+}
+.nav-link i.fa-caret-down {
+    float: right;
+}
+.burger-menu {
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    z-index: 1000;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+.logo img {
+    width: 30px;
+    margin-right: 10px;
+}
+.logo span {
+    display: inline-block;
+}
+.user-management.collapsed {
+    display: none;
+}
+.fa-caret-down.collapsed {
+    display: none;
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar, .sidebar {
+            background-color: #343a40;
+            color: white;
+        }
+        .navbar a, .sidebar a {
+            color: white;
+        }
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            padding-top: 20px;
+            transition: width 0.3s ease;
+        }
+        .sidebar.collapsed {
+            width: 80px;
+        }
+        .sidebar.collapsed .nav-link {
+            text-align: center;
+            padding: 0.75rem 0;
+        }
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+        .sidebar.collapsed .submenu {
+            display: none !important;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #e9ecef;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        .content.collapsed {
+            margin-left: 80px;
+        }
+        .submenu {
+            display: none;
+        }
+        .submenu.show {
+            display: block;
+        }
+        .nav-link i.fa-caret-down {
+            float: right;
+        }
+        .burger-menu {
+            cursor: pointer;
+            color: white;
+            padding: 10px;
+            position: absolute;
+            top: 20px;
+            right: 10px;
+            z-index: 1000;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+        .logo img {
+            width: 30px;
+            margin-right: 10px;
+        }
+        .logo span {
+            display: inline-block;
+        }
+        .user-management.collapsed {
+            display: none;
+        }
+        .fa-caret-down.collapsed {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-dark d-flex justify-content-end">
+    <form th:action="@{/logout}" method="post" class="mr-3">
+        <button class="btn btn-outline-danger" type="submit">Logout</button>
+    </form>
+</nav>
+
+<div class="sidebar">
+    <div class="logo">
+        <img src="https://static.vecteezy.com/system/resources/previews/000/379/397/non_2x/user-management-vector-icon.jpg" alt="Logo">
+        <span class="user-management">User Management</span>
+        <span class="burger-menu"><i class="fas fa-bars"></i></span>
+    </div>
+    <nav class="nav flex-column">
+        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i><span> Dashboard</span></a>
+        <a class="nav-link" href="#"><i class="fas fa-users"></i><span> User Management</span> <i class="fas fa-caret-down"></i></a>
+        <nav class="nav flex-column ml-3 submenu">
+            <a class="nav-link" href="/demoApp/create-user"><i class="fas fa-user-plus"></i><span> Create User</span></a>
+            <a class="nav-link" href="#"><i class="fas fa-eye"></i><span> View Users</span></a>
+        </nav>
+        <a class="nav-link" href="#"><i class="fas fa-chart-line"></i><span> Reports</span> <i class="fas fa-caret-down"></i></a>
+        <nav class="nav flex-column ml-3 submenu">
+            <a class="nav-link" href="#"><i class="fas fa-chart-bar"></i><span> Monthly Report</span></a>
+            <a class="nav-link" href="#"><i class="fas fa-chart-pie"></i><span> Annual Report</span></a>
+        </nav>
+    </nav>
+</div>
+
+<div class="content">
+    <h1 class="mt-5">User Menu</h1>
+    <button class="btn btn-outline-primary mb-3" onclick="window.location.href='/demoApp/create-user'">Create User</button>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.address}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.phone}"></td>
+            <td>
+                <button class="btn btn-outline-success" th:onclick="'window.location.href=\'/demoApp/edit-user/'+${user.id}+'\''">Edit</button>
+                <button class="btn btn-outline-danger" th:onclick="'window.location.href=\'/demoApp/delete-user/'+${user.id}+'\''">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.burger-menu').click(function () {
+            $('.sidebar').toggleClass('collapsed');
+            $('.content').toggleClass('collapsed');
+            $('.user-management').toggleClass('collapsed'); // Toggle user-management visibility
+            $('i.fa-caret-down').toggleClass('collapsed'); // Toggle user-management visibility
+        });
+
+        $('.nav-link').has('i.fa-caret-down').click(function () {
+            $(this).next('.submenu').toggleClass('show');
+            $(this).find('i.fa-caret-down').toggleClass('fa-caret-down fa-caret-up');
+        });
+    });
+</script>
+</body>
+</html>
